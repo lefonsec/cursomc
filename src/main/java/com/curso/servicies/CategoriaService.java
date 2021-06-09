@@ -1,12 +1,14 @@
 package com.curso.servicies;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.curso.domain.Categoria;
+import com.curso.dto.CategoriaDTO;
 import com.curso.repositories.CategoriaRepository;
 
 @Service
@@ -20,8 +22,9 @@ public class CategoriaService {
 		return obj.get();
 	}
 
-	public List<Categoria> findAll() {
-		return catRepository.findAll();
+	public Page<CategoriaDTO> findAll(Pageable 	pageable) {
+		Page<Categoria> result = catRepository.findAll(pageable);
+		return result.map(x ->new CategoriaDTO(x));
 	}
 
 	public Categoria insert(Categoria obj) {

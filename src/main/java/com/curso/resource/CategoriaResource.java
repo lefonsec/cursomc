@@ -1,10 +1,10 @@
 package com.curso.resource;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +33,9 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	@GetMapping
-	public ResponseEntity<List<CategoriaDTO>> findAll(){
-		List<Categoria> lista = catService.findAll();
-		List<CategoriaDTO>listaDto =lista.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listaDto);
+	public ResponseEntity<Page<CategoriaDTO>> findAll(Pageable pageable){
+		Page<CategoriaDTO> lista = catService.findAll(pageable);
+		return ResponseEntity.ok(lista);
 	}
 
 	@PostMapping
